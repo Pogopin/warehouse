@@ -1,5 +1,4 @@
-<template>
-  <!-- <div class="item" v-if="isEmpty"></div> -->
+<template>  
     <div class="cell">
       <div class="cell-img">
         <Icon
