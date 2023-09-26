@@ -1,7 +1,9 @@
 <template>
-	<div class="grid">
+	<div class="grid" @dragover.prevent @dragenter.prevent>
 		<Cell v-for="el in items" :key="el.id" :nameIcon="el.icon" :counter="el.counter"
       @click.prevent="clickCell($event, el)"
+      @dragstart="onItemDragStart($event, el)"
+      @drop="onItemDrop($event, el.id)"
 	  />
     <Modal
       @close:modal="cancel"
@@ -69,7 +71,25 @@ async function clickAccept() {
   await inventoryStore.deleteItemsInState(itemsDeleteValue.value, currentCell.value);
   cancel();
 }
+function onItemDragStart(event, item) {
+    const isEmpty = item.isEmpty;
 
+    if (!event.dataTransfer || isEmpty) {
+        return;
+    }
+    event.dataTransfer.dropEffect = 'move';
+    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.setData('droppingId', String(item.id));
+}
+function onItemDrop(event, droppedId) {
+  if (!event.dataTransfer || event.dataTransfer.getData('droppingId') === '') {
+    return;
+  }
+  const droppingId = parseInt(event.dataTransfer.getData('droppingId'));
+
+  const droppedCell = inventoryStore.getItemByID(droppedId);
+  if(droppedCell.isEmpty) inventoryStore.onSetNewPosition(droppingId, droppedId);// проверка пустая ячейка или нет
+}
 onBeforeMount(()=> {
   inventoryStore.fillInventoryCells()
 })
