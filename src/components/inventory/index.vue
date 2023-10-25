@@ -2,7 +2,7 @@
 	<div class="inventary">
 		<div class="inventary__leftbar">
 			<div class="inventary__leftbar-img">
-        <img src="@/assets/images/Img-Blur.png" alt="">
+        <img src="@/assets/images/sunduk640.png" alt="">
       </div>
       <div class="inventary__leftbar-body">
 				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro deleniti veniam cumque molestias consequuntur iusto adipisci esse velit, voluptatum dignissimos ad minus repudiandae impedit suscipit ratione eveniet. Excepturi, doloremque laboriosam.
@@ -49,6 +49,9 @@ import { Grid } from '@/components';
 .inventary__leftbar-body {
 	max-width: 236px;
 }
+.inventary__leftbar-body p {
+  color: white;
+}
 .inventary__footer {
   padding-right: 12px;
 }
@@ -68,6 +71,13 @@ import { Grid } from '@/components';
   text-align: center;
   display: table-cell;
   vertical-align: middle;
+}
+.inventary__leftbar-img {
+  max-width: 350px;
+  width: 205px;
+}
+.inventary__leftbar-img img {
+  width: 100%;
 }
 
 </style>
