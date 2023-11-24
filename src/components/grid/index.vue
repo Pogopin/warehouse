@@ -65,7 +65,7 @@ function cancel() {
   isActiveRemoveBtn.value = true;
 }
 function setDeleteItems(value) {
-  if(!(+value)) {alert('Недопустимое количество!'); return}  
+  if(!(+value)) {alert('Недопустимое количество!'); itemsDeleteValue.value = null; return}
   itemsDeleteValue.value = value;
 }
 async function clickAccept() {
