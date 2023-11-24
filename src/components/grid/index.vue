@@ -12,7 +12,8 @@
       <template v-slot:icon>
         <Icon
           style="transform: none; position: static; width: 100%; height: 100%"
-          :name="currentCell.icon"/>
+          :name="currentCell.icon"
+        />
       </template>
       <template v-slot:footer>
         <div v-if="isActiveRemoveBtn">
@@ -32,7 +33,6 @@
 
     </Modal>
 	</div>
-
 </template>
 <script setup>
 import { Cell, Modal, Icon } from '@/components';
@@ -50,7 +50,7 @@ const items = computed(()=> {
   return inventoryStore.getInventoryListData;
 })
 function clickCell(event, item) {
-  console.log(item)
+  // console.log(item)
 
   currentCell.value = item;
   if(!item.isEmpty) {
@@ -93,6 +93,22 @@ function onItemDrop(event, droppedId) {
 onBeforeMount(()=> {
   inventoryStore.fillInventoryCells()
 })
+
+// const div = document.querySelector( '#popup');
+
+// document.addEventListener( 'click', (e) => {
+// 	// const withinBoundaries = e.composedPath().includes(div);
+//   const withinBoundaries = e.composedPath().includes(modal);
+
+
+//   if(isActiveModal.value !== true) {
+//     if ( ! withinBoundaries ) {
+// 		// div.style.display = 'none'; // скрываем элемент т к клик был за его пределами
+//     isActiveModal.value = false
+// 	}
+//   }
+
+// })
 
 </script>
 <style scoped>

@@ -2,7 +2,7 @@
 	<div class="inventary">
 		<div class="inventary__leftbar">
 			<div class="inventary__leftbar-img">
-        <img src="@/assets/images/sunduk640.png" alt="">
+        <img src="@/assets/images/sunduk640.png" alt="sunduk">
       </div>
       <div class="inventary__leftbar-body">
 				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro deleniti veniam cumque molestias consequuntur iusto adipisci esse velit, voluptatum dignissimos ad minus repudiandae impedit suscipit ratione eveniet. Excepturi, doloremque laboriosam.
@@ -28,7 +28,7 @@ import { Grid } from '@/components';
 <style scoped>
 .inventary {
   display: grid;
-  grid-template-columns: 236px 1fr;
+  grid-template-columns: 300px min-content;
   grid-template-rows: 1fr 72px;
   gap: 20px 20px;
   grid-template-areas:
@@ -52,29 +52,30 @@ import { Grid } from '@/components';
 .inventary__leftbar-body p {
   color: white;
 }
-.inventary__footer {
-  padding-right: 12px;
-}
 .inventary__footer-body {
   background-color: #2D2D2D;
   border: 1px solid #4D4D4D;
   border-radius: 12px;
   padding: 18px;
-  width: 795px;
+  width: 856px;
 }
 .inventary__footer-content {
-  width: 700px;
+  width: 100%;
   height: 36px;
   background-color: #3C3C3C;
   border-radius: 12px;
   color: white;
   text-align: center;
-  display: table-cell;
+  /* display: table-cell; */
   vertical-align: middle;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .inventary__leftbar-img {
   max-width: 350px;
   width: 205px;
+  margin: auto;
 }
 .inventary__leftbar-img img {
   width: 100%;

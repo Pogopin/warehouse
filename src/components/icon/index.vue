@@ -12,7 +12,7 @@ const iconComponent = {
 const props = defineProps({
     name: {
         type: String,
-        required: true,
+        required: false,
     }
 });
 </script>

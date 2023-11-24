@@ -26,7 +26,7 @@ export const useInventoryStore = defineStore(id, {
       this.inventoryList.map((el)=> {
         if(el.id === changeItem.id) {
           if(el.counter < value) {alert('Недопустимое количество!'); return};
-          if(el.counter === Number(value)) {
+          if(el.counter === +(value)) {
             el.counter = null;
             el.icon = '';
             el.isEmpty = true;
@@ -37,7 +37,7 @@ export const useInventoryStore = defineStore(id, {
     async onSetNewPosition(droppingId, droppedId) {
       let tempData = {};
       this.inventoryList.map((el)=> {
-        if(el.id === Number(droppingId)) {
+        if(el.id === +(droppingId)) {
           tempData = {...el};
           el.icon = '';
           el.isEmpty = true;
@@ -45,7 +45,7 @@ export const useInventoryStore = defineStore(id, {
         }
       })
       this.inventoryList.map((el)=> {
-        if(el.id === Number(droppedId)) {
+        if(el.id === +(droppedId)) {
           el.icon = tempData.icon;
           el.counter = tempData.counter;
           el.isEmpty = false;
@@ -53,11 +53,8 @@ export const useInventoryStore = defineStore(id, {
       })
     },
     getItemByID(droppedId) {
-      let item = {}
-      this.inventoryList.forEach((el)=> {
-        if(el.id === Number(droppedId)) item = el
-      })
-      return item;
+      const item = this.inventoryList.find(item => item.id === +(droppedId))
+      return item
     }
   },
 });
