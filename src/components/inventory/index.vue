@@ -28,7 +28,7 @@ import { Grid } from '@/components';
 <style scoped>
 .inventary {
   display: grid;
-  grid-template-columns: 300px min-content;
+  grid-template-columns: 300px 1fr;
   grid-template-rows: 1fr 72px;
   gap: 20px 20px;
   grid-template-areas:
