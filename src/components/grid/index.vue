@@ -1,6 +1,6 @@
 <template>
 	<div class="grid" @dragover.prevent @dragenter.prevent>
-		<Cell v-for="el in items" :key="el.id" :nameIcon="el.icon" :counter="el.counter"
+		<Cell v-for="el in items" :key="el.id" :nameIcon="el.icon" :counter="el.counter" :class="{'disabled' : isActiveModal}"
       @click.prevent="clickCell($event, el)"
       @dragstart="onItemDragStart($event, el)"
       @drop="onItemDrop($event, el.id)"
@@ -93,23 +93,6 @@ function onItemDrop(event, droppedId) {
 onBeforeMount(()=> {
   inventoryStore.fillInventoryCells()
 })
-
-// const div = document.querySelector( '#popup');
-
-// document.addEventListener( 'click', (e) => {
-// 	// const withinBoundaries = e.composedPath().includes(div);
-//   const withinBoundaries = e.composedPath().includes(modal);
-
-
-//   if(isActiveModal.value !== true) {
-//     if ( ! withinBoundaries ) {
-// 		// div.style.display = 'none'; // скрываем элемент т к клик был за его пределами
-//     isActiveModal.value = false
-// 	}
-//   }
-
-// })
-
 </script>
 <style scoped>
 .grid {
@@ -131,5 +114,9 @@ onBeforeMount(()=> {
   color: white;
   margin-bottom: 10px;
   width: -webkit-fill-available;
+}
+.disabled {
+  pointer-events: none;
+  opacity: 0.9;
 }
 </style>

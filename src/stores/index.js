@@ -1,7 +1,5 @@
-import { ref, computed } from 'vue'
-import { defineStore } from 'pinia'
-
-import { inventoryStartItems } from '@/config/startPositionItems.js'
+import { defineStore } from 'pinia';
+import { inventoryStartItems } from '@/config/startPositionItems.js';
 
 const id = "inventory-store";
 export const useInventoryStore = defineStore(id, {
@@ -26,35 +24,35 @@ export const useInventoryStore = defineStore(id, {
       this.inventoryList.map((el)=> {
         if(el.id === changeItem.id) {
           if(el.counter < value) {alert('Недопустимое количество!'); return};
-          if(el.counter === +(value)) {
-            el.counter = null;
-            el.icon = '';
-            el.isEmpty = true;
-          } else el.counter = el.counter - Number(value);
+          (el.counter === +(value)) ? (
+            el.counter = null,
+            el.icon = '',
+            el.isEmpty = true
+           ) : (el.counter = el.counter - +(value));
         }
       })
     },
     async onSetNewPosition(droppingId, droppedId) {
       let tempData = {};
       this.inventoryList.map((el)=> {
-        if(el.id === +(droppingId)) {
-          tempData = {...el};
-          el.icon = '';
-          el.isEmpty = true;
-          el.counter = null;
-        }
+        (el.id === +(droppingId)) ? (
+          tempData = {...el},
+          el.icon = '',
+          el.isEmpty = true,
+          el.counter = null
+        ) : (false);
       })
       this.inventoryList.map((el)=> {
-        if(el.id === +(droppedId)) {
-          el.icon = tempData.icon;
-          el.counter = tempData.counter;
-          el.isEmpty = false;
-        }
+        (el.id === +(droppedId)) ? (
+          el.icon = tempData.icon,
+          el.counter = tempData.counter,
+          el.isEmpty = false
+        ) : (false);
       })
     },
     getItemByID(droppedId) {
-      const item = this.inventoryList.find(item => item.id === +(droppedId))
-      return item
+      const item = this.inventoryList.find(item => item.id === +(droppedId));
+      return item;
     }
   },
 });
