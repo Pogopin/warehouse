@@ -5,14 +5,25 @@
         <img src="@/assets/images/sunduk640.png" alt="sunduk">
       </div>
       <div class="inventary__leftbar-body">
-				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro deleniti veniam cumque molestias consequuntur iusto adipisci esse velit, voluptatum dignissimos ad minus repudiandae impedit suscipit ratione eveniet. Excepturi, doloremque laboriosam.
-				</p>
+				<h3 class="inventary__leftbar-title">Список</h3>
+        <div class="inventary__leftbar-wrap">
+          <div class="inventary__leftbar-block">
+            <Cell v-for="(item, index) in inventoryStartItems" :key="index" class="inventary__leftbar-cell"
+              :nameIcon="item.icon"
+              width="75px"
+              height="70px"
+              @click="addition(item, $event)"
+            />
+          </div>
+          <BaseInput class="inventary__input" type="number" name="itemsInput" placeholder="кол-во"/>
+          <BaseButton text="Добавить"/>
+
+        </div>
       </div>
 		</div>
 		<div class="inventary__content">
 			<Grid/>
 		</div>
-
 		<div class="inventary__footer">
       <div class="inventary__footer-body">
         <div class="inventary__footer-content">wareHouse</div>
@@ -22,10 +33,26 @@
 
 </template>
 <script setup>
-import { Grid } from '@/components';
+import { Grid, Cell } from '@/components';
+import { BaseButton, BaseInput } from '@/components/ui';
+import { inventoryStartItems } from '@/config/startPositionItems.js';
+import { ref } from 'vue';
+
+const activeCellForAdd = ref('');
+const addition = (item, event) => {
+  (!document.querySelector('.active')) ? event.target.closest('.cell__img').classList.add('active') :
+
+  document.querySelector('.active').classList.remove('active');
+  event.target.closest('.cell__img').classList.add('active');
+  console.log(item)
+
+}
 
 </script>
 <style scoped>
+.inventary__leftbar-cell:hover {
+  border-color: green !important;
+}
 .inventary {
   display: grid;
   grid-template-columns: 300px 1fr;
@@ -46,12 +73,7 @@ import { Grid } from '@/components';
 	padding-right: 14px;
 	padding-top: 18px;
 }
-.inventary__leftbar-body {
-	max-width: 236px;
-}
-.inventary__leftbar-body p {
-  color: white;
-}
+
 .inventary__footer-body {
   background-color: #2D2D2D;
   border: 1px solid #4D4D4D;
@@ -77,8 +99,37 @@ import { Grid } from '@/components';
   width: 205px;
   margin: auto;
 }
-.inventary__leftbar-img img {
-  width: 100%;
+.inventary__leftbar-title {
+  color: lightcyan;
 }
+.inventary__leftbar-wrap {
+  background-color: #3a312c;
+  height: 195px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+}
+.inventary__leftbar-block {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  padding-top: 10px;
+}
+.inventary__input {
+  max-width: 90px;
+  padding: 12px;
+  background-color: #4D4D4D;
+  outline: none;
+  border-radius: 8px;
+  border: none;
+  color: white;
+  
+  width: -webkit-fill-available;
+
+}
+
 
 </style>

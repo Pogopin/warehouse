@@ -4,6 +4,8 @@
       @click.prevent="clickCell($event, el)"
       @dragstart="onItemDragStart($event, el)"
       @drop="onItemDrop($event, el.id)"
+      width="107px"
+      height="100px"
 	  />
     <Modal
       @close:modal="cancel"
@@ -99,9 +101,10 @@ onBeforeMount(()=> {
 .grid {
 	display: flex;
 	flex-wrap: wrap;
-	max-width: 550px;
+	max-width: 535px;
   position: relative;
   overflow: hidden;
+  border-radius: 10px;
 }
 .footer__action-buttons {
   display: flex;

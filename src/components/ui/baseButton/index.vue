@@ -22,4 +22,8 @@ const props = defineProps({
   background-color: #FA7272;
   color: white;
 }
+.btn-green {
+  background-color: #a1d175;
+  color: grey;
+}
 </style>
