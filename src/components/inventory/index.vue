@@ -8,15 +8,15 @@
 				<h3 class="inventary__leftbar-title">Список</h3>
         <div class="inventary__leftbar-wrap">
           <div class="inventary__leftbar-block">
-            <Cell v-for="(item, index) in inventoryStartItems" :key="index" class="inventary__leftbar-cell"
-              :nameIcon="item.icon"
+            <Cell v-for="(el, index) in iconsArray" :key="index" class="inventary__leftbar-cell"
+              :nameIcon="el.icon"
               width="75px"
               height="70px"
-              @click="addition(item, $event)"
+              @click="getStatusItem(el, $event)"
             />
           </div>
-          <BaseInput class="inventary__input" type="number" name="itemsInput" placeholder="кол-во"/>
-          <BaseButton text="Добавить"/>
+          <BaseInput @update:value="(value) => inputValue = value" class="inventary__input" type="number" name="itemsInput" placeholder="кол-во"/>
+          <BaseButton @click="addition" text="Добавить"/>
 
         </div>
       </div>
@@ -35,19 +35,34 @@
 <script setup>
 import { Grid, Cell } from '@/components';
 import { BaseButton, BaseInput } from '@/components/ui';
-import { inventoryStartItems } from '@/config/startPositionItems.js';
+import { iconsArray } from '@/config/startPositionItems.js';
 import { ref } from 'vue';
+import { useInventoryStore } from '@/stores/index.js';
 
-const activeCellForAdd = ref('');
-const addition = (item, event) => {
+const inventoryStore = useInventoryStore();
+const inputValue = ref(0);
+const statusInInventory = ref();
+const currentItemForAdd = ref();
+
+const getStatusItem = (item, event) => {
   (!document.querySelector('.active')) ? event.target.closest('.cell__img').classList.add('active') :
-
   document.querySelector('.active').classList.remove('active');
-  event.target.closest('.cell__img').classList.add('active');
-  console.log(item)
 
+  currentItemForAdd.value = item.icon;
+  event.target.closest('.cell__img').classList.add('active');
 }
 
+const addition = () => {
+  if(inputValue.value === undefined || inputValue.value === 0) {
+    alert('Неверное количество'); return
+  }
+  statusInInventory.value = inventoryStore.checkItemStatusInList(currentItemForAdd.value) // проверка, где находится нужный item в инвентаре и возвращаем индекс
+  if(statusInInventory.value >= 0) inventoryStore.addNewItemInList(inputValue.value, statusInInventory.value)//если item есть, прибавляем счетчик
+  else {//если нет ищем первую свободную ячейку
+    inventoryStore.findFirstEmptyCell(currentItemForAdd.value, inputValue.value);
+  }
+
+}
 </script>
 <style scoped>
 .inventary__leftbar-cell:hover {
@@ -126,7 +141,7 @@ const addition = (item, event) => {
   border-radius: 8px;
   border: none;
   color: white;
-  
+
   width: -webkit-fill-available;
 
 }

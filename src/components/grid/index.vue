@@ -92,6 +92,7 @@ function onItemDrop(event, droppedId) {
 
   const droppedCell = inventoryStore.getItemByID(droppedId);
   if(droppedCell.isEmpty) inventoryStore.onSetNewPosition(droppingId, droppedId);// проверка пустая ячейка или нет
+
 }
 onBeforeMount(()=> {
   inventoryStore.fillInventoryCells()

@@ -53,6 +53,20 @@ export const useInventoryStore = defineStore(id, {
     getItemByID(droppedId) {
       const item = this.inventoryList.find(item => item.id === +(droppedId));
       return item;
+    },
+    checkItemStatusInList(name) { //проверка, есть ли уже item в инвентаре, и возвращаем его индекс
+      const foundIndex = this.inventoryList.findIndex(item => item.icon === name);
+      return foundIndex;
+    },
+    addNewItemInList(value, index) {
+      if(+value === 0) {alert('Недопустимое количество'); return}
+      this.inventoryList[index].counter += +(value);
+    },
+    findFirstEmptyCell(activeItem, quantity) {
+      const indexEmptyCell = this.inventoryList.findIndex(item => item.isEmpty === true);
+      this.inventoryList[indexEmptyCell].icon = activeItem
+      this.inventoryList[indexEmptyCell].counter += +(quantity)
+      this.inventoryList[indexEmptyCell].isEmpty = false
     }
   },
 });
