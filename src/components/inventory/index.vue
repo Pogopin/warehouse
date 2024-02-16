@@ -56,6 +56,11 @@ const addition = () => {
   if(inputValue.value === undefined || inputValue.value === 0) {
     alert('Неверное количество'); return
   }
+  console.log('item', currentItemForAdd.value)
+  if(currentItemForAdd.value === undefined) {
+    alert('Выберите иконку для добавления');
+    return;
+  }
   statusInInventory.value = inventoryStore.checkItemStatusInList(currentItemForAdd.value) // проверка, где находится нужный item в инвентаре и возвращаем индекс
   if(statusInInventory.value >= 0) inventoryStore.addNewItemInList(inputValue.value, statusInInventory.value)//если item есть, прибавляем счетчик
   else {//если нет ищем первую свободную ячейку
