@@ -13,11 +13,15 @@ export const useInventoryStore = defineStore(id, {
   },
   actions: {
     fillInventoryCells() {
-      this.inventoryList.length = 0;
-      this.inventoryList.push(...inventoryStartItems);
-      for (let i = 3; i < 25; i++) {
-        const randomId = i + 1;
-        this.inventoryList.push({icon: '', counter: 0, position: i + 1, isEmpty: true, id: randomId});
+      if(localStorage.getItem('list')) {
+        this.inventoryList = JSON.parse(localStorage.getItem('list'))
+      } else {
+        this.inventoryList.length = 0;
+        this.inventoryList.push(...inventoryStartItems);
+        for (let i = 3; i < 25; i++) {
+          const randomId = i + 1;
+          this.inventoryList.push({icon: '', counter: 0, position: i + 1, isEmpty: true, id: randomId});
+        }
       }
     },
     async deleteItemsInState(value, changeItem) {
@@ -67,6 +71,10 @@ export const useInventoryStore = defineStore(id, {
       this.inventoryList[indexEmptyCell].icon = activeItem
       this.inventoryList[indexEmptyCell].counter += +(quantity)
       this.inventoryList[indexEmptyCell].isEmpty = false
+    },
+    saveInLocalStorage() {
+      console.log('сохранено');
+      localStorage.setItem('list', JSON.stringify(this.inventoryList));
     }
   },
 });

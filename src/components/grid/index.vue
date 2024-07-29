@@ -39,7 +39,7 @@
 <script setup>
 import { Cell, Modal, Icon } from '@/components';
 import { BaseButton, BaseInput } from '@/components/ui';
-import { ref, computed, onBeforeMount, defineEmits } from 'vue';
+import { ref, computed, onBeforeMount, defineEmits, onUpdated } from 'vue';
 import { useInventoryStore } from '@/stores/index.js';
 
 const inventoryStore = useInventoryStore();
@@ -91,11 +91,14 @@ function onItemDrop(event, droppedId) {
   const droppingId = parseInt(event.dataTransfer.getData('droppingId'));
 
   const droppedCell = inventoryStore.getItemByID(droppedId);
-  if(droppedCell.isEmpty) inventoryStore.onSetNewPosition(droppingId, droppedId);// проверка пустая ячейка или нет
+  if(droppedCell.isEmpty) inventoryStore.onSetNewPosition(droppingId, droppedId);// проверка пустая ячейка или нет , там где drop
 
 }
 onBeforeMount(()=> {
-  inventoryStore.fillInventoryCells()
+  inventoryStore.fillInventoryCells();
+})
+onUpdated(() => {
+  inventoryStore.saveInLocalStorage();
 })
 </script>
 <style scoped>
