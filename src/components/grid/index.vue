@@ -65,7 +65,8 @@ function onClickItemRemove() {
 }
 function cancel() {
   state.isActiveModal = false;
-  state.isActiveRemoveBtn = true;  
+  state.isActiveRemoveBtn = true;
+  state.itemsDeleteValue = 0;
 }
 function setDeleteItems(value) {
   if(!(+value)) {alert('Недопустимое количество!'); state.itemsDeleteValue = 0; return}
