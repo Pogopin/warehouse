@@ -1,6 +1,6 @@
 <template>
 	<div class="grid" @dragover.prevent @dragenter.prevent>
-		<Cell v-for="el in items" :key="el.id" :nameIcon="el.icon" :counter="el.counter" :class="{'disabled' : isActiveModal}"
+		<Cell v-for="el in items" :key="el.id" :nameIcon="el.icon" :counter="el.counter" :class="{'disabled' : state.isActiveModal}"
       @click.prevent="clickCell($event, el)"
       @dragstart="onItemDragStart($event, el)"
       @drop="onItemDrop($event, el.id)"
@@ -9,16 +9,16 @@
 	  />
     <Modal
       @close:modal="cancel"
-      :isActive="isActiveModal"
+      :isActive="state.isActiveModal"
     >
       <template v-slot:icon>
         <Icon
           style="transform: none; position: static; width: 100%; height: 100%"
-          :name="currentCell.icon"
+          :name="state.currentCell.icon"
         />
       </template>
       <template v-slot:footer>
-        <div v-if="isActiveRemoveBtn">
+        <div v-if="state.isActiveRemoveBtn">
           <BaseButton
             text="Удалить предмет"
             modifyStyle="btn-red"
@@ -32,46 +32,47 @@
           </div>
         </div>
       </template>
-
     </Modal>
 	</div>
 </template>
 <script setup>
 import { Cell, Modal, Icon } from '@/components';
 import { BaseButton, BaseInput } from '@/components/ui';
-import { ref, computed, onBeforeMount, defineEmits, onUpdated } from 'vue';
+import { computed, onBeforeMount, onUpdated, reactive } from 'vue';
 import { useInventoryStore } from '@/stores/index.js';
 
 const inventoryStore = useInventoryStore();
-const currentCell = ref('');
-const isActiveModal = ref(false);
-const isActiveRemoveBtn = ref(true);
-const itemsDeleteValue = ref();
+
+const state = reactive({
+  currentCell: '',
+  isActiveModal: false,
+  isActiveRemoveBtn: true,
+  itemsDeleteValue: 0
+})
 
 const items = computed(()=> {
   return inventoryStore.getInventoryListData;
 })
 function clickCell(event, item) {
   // console.log(item)
-
-  currentCell.value = item;
+  state.currentCell = item;
   if(!item.isEmpty) {
-    isActiveModal.value = true;
+    state.isActiveModal = true;
   }
   }
 function onClickItemRemove() {
-  isActiveRemoveBtn.value = false;
+  state.isActiveRemoveBtn = false;
 }
 function cancel() {
-  isActiveModal.value = false;
-  isActiveRemoveBtn.value = true;
+  state.isActiveModal = false;
+  state.isActiveRemoveBtn = true;  
 }
 function setDeleteItems(value) {
-  if(!(+value)) {alert('Недопустимое количество!'); itemsDeleteValue.value = null; return}
-  itemsDeleteValue.value = value;
+  if(!(+value)) {alert('Недопустимое количество!'); state.itemsDeleteValue = 0; return}
+  state.itemsDeleteValue = value;
 }
 async function clickAccept() {
-  await inventoryStore.deleteItemsInState(itemsDeleteValue.value, currentCell.value);
+  await inventoryStore.deleteItemsInState(state.itemsDeleteValue, state.currentCell);
   cancel();
 }
 function onItemDragStart(event, item) {

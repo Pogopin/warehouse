@@ -1,5 +1,6 @@
 <template>
-  <div :class="['modal', { 'active': props.isActive == true }]">
+  <!-- <div :class="['modal', { 'active': props.isActive == true }]"> -->
+  <div :class="classes">
     <div class="modal__closebtn" @click="closeModal">
       <img src="@/assets/icons/carbon_close.svg" alt="">
     </div>
@@ -14,7 +15,12 @@
   </div>
 </template>
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, computed } from 'vue';
+
+const classes = computed(() => ({
+  'active' : props.isActive,
+  'modal' : true
+}))
 
 const props = defineProps({
 	isActive: {
